@@ -2,10 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
-
+ const [open , setOpen] = useState(false)
   useEffect(() => {
     console.log("Hello");
     getCars();
@@ -15,13 +17,21 @@ export default function Carlist() {
     fetch("https://carstockrest.herokuapp.com/cars")
       .then(response => response.json())
       .then(data => setCars(data._embedded.cars))
+      .then(_ => setOpen(true))
       .catch(err => console.log(err));
   };
 
-  const deleteCar = event => {
-    event.preventDefault();
-    setCars(cars.filter((_, index) => index !== parseInt(event.target.id)));
+  const deleteCar = (link) => {
+    if (window.confirm("Are u sure")) {
+      fetch(link, { method: "DELETE" })
+        .then(response => getCars())
+        .catch(err => console.log(err));
+    }
   };
+
+  const handleClose =() =>{
+      setOpen(false)
+  }
 
   const columns = [
     {
@@ -51,13 +61,14 @@ export default function Carlist() {
     },
     {
       accessor: "_links.self.href",
-      Cell: ({ index }) => (
-        <button id={index} onClick={deleteCar}>
-          Delete
-        </button>
-      ),
       filterable: false,
-      sortable: false
+      sortable: false,
+      minWidth: 60,
+      Cell:row => <Button 
+      variant="contained" 
+      color="secondary"
+      size = "small"
+      onClick={() => deleteCar(row.value)}>Delete</Button>
     }
   ];
 
@@ -68,6 +79,12 @@ export default function Carlist() {
         filterable={true}
         data={cars}
         columns={columns}
+      />
+      <Snackbar open = {open}
+      autoHideDuration = {3000}
+      onClose = {handleClose}
+      message = "Car deleted"
+      
       />
     </div>
   );

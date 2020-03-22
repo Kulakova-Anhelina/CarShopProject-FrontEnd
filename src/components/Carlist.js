@@ -10,10 +10,10 @@ export default function Carlist() {
   const [cars, setCars] = useState([]);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    getCars();
+    fetchData();
   }, []);
 
-  const getCars = () => {
+  const fetchData = () => {
     fetch("https://carstockrest.herokuapp.com/cars")
       .then(response => response.json())
       .then(data => setCars(data._embedded.cars))
@@ -24,13 +24,24 @@ export default function Carlist() {
   const deleteCar = link => {
     if (window.confirm("Are u sure")) {
       fetch(link, { method: "DELETE" })
-        .then(response => getCars())
+        .then(response => fetchData())
         .catch(err => console.log(err));
     }
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const saveCar = car => {
+    fetch("https://carstockrest.herokuapp.com/cars", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(car)
+    })
+      .then(response => fetchData())
+      .catch(err => console.log(err));
   };
 
   const columns = [
@@ -79,7 +90,7 @@ export default function Carlist() {
 
   return (
     <div>
-      <Addcar />
+      <Addcar saveCar={saveCar} />
       <ReactTable
         defaultPageSize={10}
         filterable={true}

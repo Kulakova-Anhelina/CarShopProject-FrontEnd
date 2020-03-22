@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function Addcar() {
+export default function Addcar(props) {
   const [open, setOpen] = useState(false);
   const [car, setCar] = useState({
     brand: "",
@@ -28,6 +28,10 @@ export default function Addcar() {
 
   const handleInput = event => {
     setCar({ ...car, [event.target.name]: event.target.value });
+  };
+  const addCar = () => {
+    props.saveCar(car);
+    handleClose();
   };
 
   return (
@@ -101,7 +105,7 @@ export default function Addcar() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={addCar} color="primary">
             Save
           </Button>
         </DialogActions>

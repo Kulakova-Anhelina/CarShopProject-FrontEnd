@@ -2,14 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
- const [open , setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   useEffect(() => {
-    console.log("Hello");
     getCars();
   }, []);
 
@@ -21,7 +20,7 @@ export default function Carlist() {
       .catch(err => console.log(err));
   };
 
-  const deleteCar = (link) => {
+  const deleteCar = link => {
     if (window.confirm("Are u sure")) {
       fetch(link, { method: "DELETE" })
         .then(response => getCars())
@@ -29,9 +28,9 @@ export default function Carlist() {
     }
   };
 
-  const handleClose =() =>{
-      setOpen(false)
-  }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const columns = [
     {
@@ -64,11 +63,16 @@ export default function Carlist() {
       filterable: false,
       sortable: false,
       minWidth: 60,
-      Cell:row => <Button 
-      variant="contained" 
-      color="secondary"
-      size = "small"
-      onClick={() => deleteCar(row.value)}>Delete</Button>
+      Cell: row => (
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => deleteCar(row.value)}
+        >
+          Delete
+        </Button>
+      )
     }
   ];
 
@@ -80,11 +84,11 @@ export default function Carlist() {
         data={cars}
         columns={columns}
       />
-      <Snackbar open = {open}
-      autoHideDuration = {3000}
-      onClose = {handleClose}
-      message = "Car deleted"
-      
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Car deleted"
       />
     </div>
   );

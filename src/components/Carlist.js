@@ -4,6 +4,7 @@ import ReactTable from "react-table-v6";
 import "react-table-v6/react-table.css";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import Addcar from "./Addcar";
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
@@ -78,6 +79,7 @@ export default function Carlist() {
 
   return (
     <div>
+      <Addcar />
       <ReactTable
         defaultPageSize={10}
         filterable={true}

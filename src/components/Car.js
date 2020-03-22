@@ -21,7 +21,7 @@ export default function Addcar() {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
+        Add car
       </Button>
       <Dialog
         open={open}

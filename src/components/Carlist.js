@@ -5,6 +5,8 @@ import "react-table-v6/react-table.css";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import Addcar from "./Addcar";
+import Editcar from "./Editcar";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
@@ -75,9 +77,17 @@ export default function Carlist() {
       filterable: false,
       sortable: false,
       minWidth: 60,
+      Cell: row => <Editcar car = {row.original}/>
+    },
+    {
+      accessor: "_links.self.href",
+      filterable: false,
+      sortable: false,
+      minWidth: 60,
       Cell: row => (
         <Button
           variant="contained"
+          startIcon={<DeleteIcon />}
           color="secondary"
           size="small"
           onClick={() => deleteCar(row.value)}

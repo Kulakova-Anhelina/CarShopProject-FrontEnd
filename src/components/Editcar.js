@@ -21,16 +21,15 @@ export default function Editcar(props) {
 
   const handleClickOpen = () => {
     setCar({
-        brand:props.car.brand,
-        model: props.car.model,
-        color: props.car.color,
-        year: props.car.year,
-        fuel: props.car.fuel,
-        price: props.car.price
-        
-    })
+      brand: props.car.brand,
+      model: props.car.model,
+      color: props.car.color,
+      year: props.car.year,
+      fuel: props.car.fuel,
+      price: props.car.price
+    });
     setOpen(true);
-    console.log(props.car)
+    console.log(props.car);
   };
 
   const handleClose = () => {
@@ -40,8 +39,8 @@ export default function Editcar(props) {
   const handleInput = event => {
     setCar({ ...car, [event.target.name]: event.target.value });
   };
-  const addCar = () => {
-    props.saveCar(car);
+  const updateCar = () => {
+    props.updateCar(car, props.car._links.car.href);
     handleClose();
   };
 
@@ -117,7 +116,7 @@ export default function Editcar(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={addCar} color="primary">
+          <Button onClick={updateCar} color="primary">
             Save
           </Button>
         </DialogActions>

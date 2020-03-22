@@ -46,6 +46,18 @@ export default function Carlist() {
       .catch(err => console.log(err));
   };
 
+  const updateCar = (car, link) => {
+    fetch(link, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(car)
+    })
+      .then(response => fetchData())
+      .catch(err => console.log(err));
+  };
+
   const columns = [
     {
       Header: "Brand",
@@ -77,7 +89,7 @@ export default function Carlist() {
       filterable: false,
       sortable: false,
       minWidth: 60,
-      Cell: row => <Editcar car = {row.original}/>
+      Cell: row => <Editcar updateCar={updateCar} car={row.original} />
     },
     {
       accessor: "_links.self.href",

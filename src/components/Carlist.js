@@ -11,6 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 export default function Carlist() {
   const [cars, setCars] = useState([]);
   const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState("");
   useEffect(() => {
     fetchData();
   }, []);
@@ -27,6 +28,10 @@ export default function Carlist() {
     if (window.confirm("Are u sure")) {
       fetch(link, { method: "DELETE" })
         .then(response => fetchData())
+        .then(response => {
+          setMsg('Car Deleted')
+          setOpen(true)
+        })
         .catch(err => console.log(err));
     }
   };
@@ -43,7 +48,11 @@ export default function Carlist() {
       body: JSON.stringify(car)
     })
       .then(response => fetchData())
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .then(response => {
+        setMsg('Car added')
+        setOpen(true)
+      })
   };
 
   const updateCar = (car, link) => {
@@ -55,7 +64,11 @@ export default function Carlist() {
       body: JSON.stringify(car)
     })
       .then(response => fetchData())
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .then(response => {
+        setMsg('Car updated')
+        setOpen(true)
+      });
   };
 
   const columns = [
@@ -123,7 +136,7 @@ export default function Carlist() {
         open={open}
         autoHideDuration={3000}
         onClose={handleClose}
-        message="Car deleted"
+        message={msg}
       />
     </div>
   );

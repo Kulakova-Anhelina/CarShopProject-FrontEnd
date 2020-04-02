@@ -11,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 export default function Carlist() {
   const [cars, setCars] = useState([]);
   const [open, setOpen] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [msg, setMsg] = useState('');
   useEffect(() => {
     fetchData();
   }, []);
